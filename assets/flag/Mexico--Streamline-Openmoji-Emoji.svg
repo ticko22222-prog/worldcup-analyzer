@@ -1,0 +1,15 @@
+<svg id="Flag-Mexico--Streamline-Openmoji" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" height="32" width="32">
+  <desc>
+    Flag Mexico Streamline Emoji: https://streamlinehq.com
+  </desc>
+  <g id="color">
+    <path fill="#ffffff" d="M2.2222222222222223 7.555555555555555h27.555555555555554v16.88888888888889H2.2222222222222223Z" stroke-width="0.4444"></path>
+    <path fill="#5c9e31" d="M2.2222222222222223 7.555555555555555h9.333333333333332v16.88888888888889H2.2222222222222223Z" stroke-width="0.4444"></path>
+    <path fill="#d22f27" d="M20.444444444444443 7.555555555555555h9.333333333333332v16.88888888888889H20.444444444444443Z" stroke-width="0.4444"></path>
+    <path fill="#a57939" stroke="#a57939" stroke-miterlimit="10" stroke-width="0.8889" d="M14.444444444444443 15.555555555555555a1.5555555555555554 1.5555555555555554 0 1 0 3.1111111111111107 0 1.5555555555555554 1.5555555555555554 0 1 0 -3.1111111111111107 0"></path>
+    <path fill="none" stroke="#5c9e31" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8889" d="M13.333333333333332 17.549466666666667a3.3244444444444445 3.3244444444444445 0 0 0 5.333333333333333 0"></path>
+  </g>
+  <g id="line">
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8889" d="M2.2222222222222223 7.555555555555555h27.555555555555554v16.88888888888889H2.2222222222222223Z"></path>
+  </g>
+</svg>

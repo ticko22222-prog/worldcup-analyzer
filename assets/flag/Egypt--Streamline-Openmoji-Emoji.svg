@@ -1,0 +1,15 @@
+<svg id="Flag-Egypt--Streamline-Openmoji" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" height="32" width="32">
+  <desc>
+    Flag Egypt Streamline Emoji: https://streamlinehq.com
+  </desc>
+  <g id="color">
+    <path d="M2.2222222222222223 7.555555555555555h27.555555555555554v16.88888888888889H2.2222222222222223Z" stroke-width="0.4444"></path>
+    <path fill="#ffffff" d="M2.2222222222222223 13.333333333333332h27.555555555555554v5.333333333333333H2.2222222222222223Z" stroke-width="0.4444"></path>
+    <path fill="#d22f27" d="M2.2222222222222223 7.555555555555555h27.555555555555554v5.777777777777778H2.2222222222222223Z" stroke-width="0.4444"></path>
+    <path fill="#f1b31c" stroke="#f1b31c" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8889" d="M14.666666666666666 14.666666666666666h2.6666666666666665v2.6666666666666665h-2.6666666666666665Z"></path>
+    <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8889" d="m16 14.222222222222221 0 3.5555555555555554"></path>
+  </g>
+  <g id="line">
+    <path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8889" d="M2.2222222222222223 7.555555555555555h27.555555555555554v16.88888888888889H2.2222222222222223Z"></path>
+  </g>
+</svg>
