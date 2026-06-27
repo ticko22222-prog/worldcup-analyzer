@@ -1,4 +1,4 @@
-﻿const TEAM_POOL = {
+const TEAM_POOL = {
   Mexico: ["🇲🇽", "\u58a8\u897f\u54e5"],
   "South Africa": ["RSA", "\u5357\u975e"],
   "South Korea": ["KOR", "\u5357\u97d3"],
@@ -253,7 +253,18 @@ const thirdPlaceSlots = [
   { match: 87, slot: "K1", allowed: ["D", "E", "I", "J", "L"] },
 ];
 
-const BRACKET_WINDOW_SIZE = 3;
+const MOBILE_BRACKET_BREAKPOINT = 760;
+const DESKTOP_BRACKET_WINDOWS = [
+  ["Round of 32", "Round of 16", "Quarterfinal"],
+  ["Round of 16", "Quarterfinal", "Semifinal"],
+  ["Semifinal", "Final", "Third Place"],
+];
+const MOBILE_BRACKET_WINDOWS = [
+  ["Round of 32", "Round of 16"],
+  ["Round of 16", "Quarterfinal"],
+  ["Quarterfinal", "Semifinal"],
+  ["Semifinal", "Final", "Third Place"],
+];
 const STORAGE_KEY = "worldcup-analyzer-state-v1";
 
 const state = {
@@ -272,8 +283,10 @@ const state = {
 
 let draggedTeam = null;
 let draggedThird = null;
+let mobileBracketMode = false;
 
 document.addEventListener("DOMContentLoaded", () => {
+  mobileBracketMode = isMobileBracket();
   loadSavedState();
   applyLockedGroupResults();
   bindControls();
@@ -305,6 +318,13 @@ function bindControls() {
   });
 
   setupFilters();
+
+  window.addEventListener("resize", () => {
+    const nextMobileMode = isMobileBracket();
+    if (nextMobileMode === mobileBracketMode) return;
+    mobileBracketMode = nextMobileMode;
+    renderBracket();
+  });
 }
 
 function setupQualificationToggle() {
@@ -542,34 +562,36 @@ function renderPills(id, items) {
 
 function renderBracket() {
   const bracket = document.getElementById("bracket");
-  const byRound = [
+  const roundOrder = [
     ["Round of 32", knockoutFixtures.filter((m) => m.stage === "Round of 32")],
     ["Round of 16", knockoutFixtures.filter((m) => m.stage === "Round of 16")],
     ["Quarterfinal", knockoutFixtures.filter((m) => m.stage === "Quarterfinal")],
     ["Semifinal", knockoutFixtures.filter((m) => m.stage === "Semifinal")],
-    ["Third Place", knockoutFixtures.filter((m) => m.stage === "Third Place")],
     ["Final", knockoutFixtures.filter((m) => m.stage === "Final")],
+    ["Third Place", knockoutFixtures.filter((m) => m.stage === "Third Place")],
   ];
+  const roundMap = new Map(roundOrder);
+  const windows = getBracketWindows();
+  const currentWindowIndex = normalizeBracketWindowIndex(windows);
+  const visibleRounds = windows[currentWindowIndex].map((stage) => [stage, roundMap.get(stage) || []]);
+  const previousIndex = Math.max(0, currentWindowIndex - 1);
+  const nextIndex = Math.min(windows.length - 1, currentWindowIndex + 1);
 
-  const maxStart = Math.max(0, byRound.length - BRACKET_WINDOW_SIZE);
-  state.bracketStartIndex = Math.min(Math.max(state.bracketStartIndex, 0), maxStart);
-  const visibleRounds = byRound.slice(state.bracketStartIndex, state.bracketStartIndex + BRACKET_WINDOW_SIZE);
-  const previousStart = Math.max(0, state.bracketStartIndex - 1);
-  const nextStart = Math.min(maxStart, state.bracketStartIndex + 1);
+  state.bracketStartIndex = bracketWindowStart(windows[currentWindowIndex]);
 
   bracket.innerHTML = `
     <div class="bracket-window-controls">
-      <button class="bracket-shift" ${state.bracketStartIndex === 0 ? "disabled" : ""} data-bracket-start="${previousStart}">
-        &larr; ${roundWindowLabel(byRound, previousStart)}
+      <button class="bracket-shift" ${currentWindowIndex === 0 ? "disabled" : ""} data-bracket-window="${previousIndex}">
+        &larr; ${roundWindowLabel(windows[previousIndex])}
       </button>
-      <span>${roundWindowLabel(byRound, state.bracketStartIndex)}</span>
-      <button class="bracket-shift" ${state.bracketStartIndex === maxStart ? "disabled" : ""} data-bracket-start="${nextStart}">
-        ${roundWindowLabel(byRound, nextStart)} &rarr;
+      <span>${roundWindowLabel(windows[currentWindowIndex])}</span>
+      <button class="bracket-shift" ${currentWindowIndex === windows.length - 1 ? "disabled" : ""} data-bracket-window="${nextIndex}">
+        ${roundWindowLabel(windows[nextIndex])} &rarr;
       </button>
     </div>
-    <div class="bracket-window">
+    <div class="bracket-window ${visibleRounds.some(([round]) => round === "Final") ? "is-final-window" : ""}">
       ${visibleRounds.map(([round, matches]) => `
-        <div class="round-column">
+        <div class="round-column" data-round="${round}">
           <div class="round-title">${stageLabelForMatch(matches[0])}</div>
           ${matches.map((match) => renderMatchCard(match)).join("")}
         </div>
@@ -579,7 +601,8 @@ function renderBracket() {
 
   bracket.querySelectorAll(".bracket-shift").forEach((button) => {
     button.addEventListener("click", () => {
-      state.bracketStartIndex = Number(button.dataset.bracketStart);
+      const targetWindow = windows[Number(button.dataset.bracketWindow)];
+      state.bracketStartIndex = bracketWindowStart(targetWindow);
       renderBracket();
       saveState();
     });
@@ -624,11 +647,38 @@ function renderMatchCard(match) {
   `;
 }
 
-function roundWindowLabel(rounds, startIndex) {
-  return rounds
-    .slice(startIndex, startIndex + BRACKET_WINDOW_SIZE)
-    .map(([, matches]) => stageLabelForMatch(matches[0]))
+function getBracketWindows() {
+  return isMobileBracket() ? MOBILE_BRACKET_WINDOWS : DESKTOP_BRACKET_WINDOWS;
+}
+
+function isMobileBracket() {
+  return window.matchMedia(`(max-width: ${MOBILE_BRACKET_BREAKPOINT}px)`).matches;
+}
+
+function normalizeBracketWindowIndex(windows) {
+  const exactIndex = windows.findIndex((windowStages) => bracketWindowStart(windowStages) === state.bracketStartIndex);
+  if (exactIndex >= 0) return exactIndex;
+
+  const nextIndex = windows.findIndex((windowStages) => bracketWindowStart(windowStages) > state.bracketStartIndex);
+  return nextIndex >= 0 ? nextIndex : windows.length - 1;
+}
+
+function bracketWindowStart(windowStages) {
+  return stageStartIndex(windowStages[0]);
+}
+
+function stageStartIndex(stage) {
+  return ["Round of 32", "Round of 16", "Quarterfinal", "Semifinal", "Final", "Third Place"].indexOf(stage);
+}
+
+function roundWindowLabel(roundStages) {
+  return roundStages
+    .map(stageLabelForStage)
     .join(" \u2192 ");
+}
+
+function stageLabelForStage(stage) {
+  return stageLabelForMatch(knockoutFixtures.find((match) => match.stage === stage));
 }
 
 function stageLabelForMatch(match) {
