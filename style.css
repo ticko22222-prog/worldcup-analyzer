@@ -805,11 +805,91 @@ select {
   .quick-stats,
   .groups-grid,
   .qualified-strip,
-  .bracket-window,
   .schedule-list,
   .third-ranking,
   .drawer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .bracket {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .bracket-window {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    align-items: start;
+  }
+
+  .bracket-window.is-final-window .round-column[data-round="Semifinal"] {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .bracket-window.is-final-window .round-column[data-round="Final"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .bracket-window.is-final-window .round-column[data-round="Third Place"] {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .round-column {
+    gap: 8px;
+  }
+
+  .round-title {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .match-card {
+    font-size: 13px;
+  }
+
+  .match-head {
+    gap: 6px;
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+
+  .match-head span {
+    text-align: right;
+  }
+
+  .team-choice {
+    gap: 6px;
+    min-height: 34px;
+    padding: 7px 8px;
+  }
+
+  .team-choice > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .team-choice small {
+    font-size: 11px;
+  }
+
+  .match-venue {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+
+  .match-card .team-label {
+    gap: 5px;
+  }
+
+  .match-card .team-flag,
+  .match-card .team-code {
+    width: 20px;
+    height: 15px;
   }
 
   .bracket-window-controls {
