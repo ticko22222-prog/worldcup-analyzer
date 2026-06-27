@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>&#50;&#48;&#50;&#54; &#19990;&#30028;&#30403;&#36093;&#31243;&#20998;&#26512;&#22120;</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">FIFA World Cup 2026</p>
+      <h1>&#19990;&#30028;&#30403;&#36093;&#31243;&#33287;&#26185;&#32026;&#27169;&#25836;&#22120;</h1>
+    </div>
+    <nav class="top-actions" aria-label="&#20027;&#35201;&#25805;&#20316;">
+      <button class="ghost-btn" data-scroll-target="bracketSection">&#28120;&#27760;&#36093;</button>
+      <button class="ghost-btn" data-scroll-target="groupsSection">&#20998;&#32068;&#25490;&#21517;</button>
+      <button class="ghost-btn" data-scroll-target="scheduleSection">&#23436;&#25972;&#36093;&#31243;</button>
+      <button class="primary-btn" id="resetBtn">&#37325;&#35373;&#27169;&#25836;</button>
+    </nav>
+  </header>
+
+  <main class="app-shell">
+    <section class="intro-panel">
+      <div>
+        <h2>&#36664;&#20837;&#27604;&#20998;&#12289;&#37782;&#23450;&#36093;&#26524;&#65292;&#24555;&#36895;&#25512;&#28436;&#28120;&#27760;&#36093;&#23565;&#25136;</h2>
+        <p>12 &#20491;&#23567;&#32068;&#21508;&#21462;&#21069; 2 &#21517;&#65292;&#21152;&#19978; 8 &#25903;&#26368;&#20339;&#31532;&#19977;&#21517;&#26185;&#32026; 32 &#24375;&#12290;&#20320;&#21487;&#20197;&#22635;&#20837;&#24050;&#23436;&#25104;&#36093;&#20107;&#27604;&#20998;&#65292;&#37782;&#23450;&#30495;&#23526;&#32080;&#26524;&#65292;&#20877;&#33258;&#30001;&#27169;&#25836;&#24460;&#32396;&#36093;&#31243;&#12290;</p>
+      </div>
+      <div class="quick-stats">
+        <div><strong>48</strong><span>&#21443;&#36093;&#38538;&#20237;</span></div>
+        <div><strong>104</strong><span>&#32317;&#22580;&#27425;</span></div>
+        <div><strong>16</strong><span>&#20027;&#36774;&#22478;&#24066;</span></div>
+      </div>
+    </section>
+
+    <section class="workspace-grid">
+      <aside class="panel group-panel" id="groupsSection">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Group Stage</p>
+            <h2>&#20998;&#32068;&#25490;&#21517;</h2>
+          </div>
+          <span class="hint">&#20381;&#31309;&#20998;&#12289;&#28136;&#21213;&#29699;&#12289;&#36914;&#29699;&#25976;&#25490;&#24207;</span>
+        </div>
+        <div id="groupsContainer" class="groups-grid"></div>
+      </aside>
+
+      <section class="panel bracket-panel" id="bracketSection">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Knockout</p>
+            <h2>32 &#24375;&#21040;&#32317;&#27770;&#36093;</h2>
+          </div>
+          <span class="hint">&#19968;&#27425;&#32858;&#28966;&#19977;&#20491;&#38542;&#27573;</span>
+        </div>
+        <div class="qualified-strip">
+          <div>
+            <h3>&#23567;&#32068;&#31532;&#19968;</h3>
+            <div id="winnerList" class="pill-list"></div>
+          </div>
+          <div>
+            <h3>&#23567;&#32068;&#31532;&#20108;</h3>
+            <div id="runnerList" class="pill-list"></div>
+          </div>
+          <div>
+            <h3>&#26368;&#20339;&#31532;&#19977;&#21517;</h3>
+            <div id="thirdList" class="pill-list"></div>
+          </div>
+        </div>
+        <div id="bracket" class="bracket"></div>
+      </section>
+    </section>
+
+    <section class="panel thirds-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Best Thirds</p>
+          <h2>&#31532;&#19977;&#21517;&#25490;&#24207;</h2>
+        </div>
+        <span class="hint">&#21069; 8 &#21517;&#26185;&#32026; 32 &#24375;</span>
+      </div>
+      <div id="thirdRanking" class="third-ranking"></div>
+    </section>
+
+    <section class="panel schedule-panel" id="scheduleSection">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Fixtures</p>
+          <h2>&#23436;&#25972;&#36093;&#31243;&#33287;&#22580;&#22320;</h2>
+        </div>
+        <div class="filters">
+          <select id="dateFilter" aria-label="&#20381;&#26085;&#26399;&#31621;&#36984;"></select>
+          <select id="groupFilter" aria-label="&#20381;&#32068;&#21029;&#31621;&#36984;"></select>
+          <select id="roundFilter" aria-label="&#20381;&#38542;&#27573;&#31621;&#36984;"></select>
+        </div>
+      </div>
+      <div id="scheduleList" class="schedule-list"></div>
+    </section>
+  </main>
+
+  <aside class="drawer" id="matchDrawer" aria-live="polite">
+    <button class="drawer-close" id="drawerClose" aria-label="&#38364;&#38281;">&times;</button>
+    <p class="eyebrow" id="drawerStage">Match</p>
+    <h2 id="drawerTitle">&#36093;&#20107;&#36039;&#35338;</h2>
+    <div class="drawer-grid">
+      <div><span>&#21488;&#28771;&#26178;&#38291;</span><strong id="drawerTaiwan">-</strong></div>
+      <div><span>&#30070;&#22320;&#26178;&#38291;</span><strong id="drawerLocal">-</strong></div>
+      <div><span>&#22580;&#22320;</span><strong id="drawerVenue">-</strong></div>
+      <div><span>&#22478;&#24066;</span><strong id="drawerCity">-</strong></div>
+    </div>
+  </aside>
+
+  <script src="data/locked-results.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
