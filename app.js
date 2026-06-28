@@ -1088,6 +1088,9 @@ function resolveThirdGroup(matchNo) {
 }
 
 function allocateThirds(bestGroups) {
+  const officialAllocation = window.THIRD_PLACE_ALLOCATIONS?.[[...bestGroups].sort().join("")];
+  if (officialAllocation) return officialAllocation;
+
   const slots = thirdPlaceSlots.map((slot) => ({
     ...slot,
     candidates: slot.allowed.filter((group) => bestGroups.includes(group)),
