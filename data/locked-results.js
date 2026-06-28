@@ -71,6 +71,7 @@ window.LOCKED_GROUP_RESULTS = [
     { no: 71, home: 0, away: 0 },
     { no: 72, home: 3, away: 1 },
     { no: 67, home: 0, away: 2 },
-    { no: 68, home: 2, away: 1 }
-
+    { no: 68, home: 2, away: 1 },
+    { no: 70, home: 1, away: 3 },
+    { no: 69, home: 3, away: 3 }
 ];
